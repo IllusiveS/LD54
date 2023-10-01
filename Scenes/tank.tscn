@@ -1,0 +1,99 @@
+[gd_scene load_steps=10 format=3 uid="uid://cku2axs3np2d8"]
+
+[ext_resource type="Script" path="res://Scripts/tank.gd" id="1_pifwe"]
+[ext_resource type="PackedScene" uid="uid://ctqmphjko5hh" path="res://Scenes/bullet.tscn" id="2_1khc0"]
+[ext_resource type="Script" path="res://Scripts/Sync/PlayerInput.gd" id="3_wyw21"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_6f4ew"]
+size = Vector3(2, 1.5, 0.6)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_arbtc"]
+top_radius = 0.3
+height = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tvav3"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 1.7
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_br5ye"]
+radius = 0.35855
+height = 2.04879
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_16a7a"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:player")
+properties/2/spawn = true
+properties/2/replication_mode = 0
+properties/3/path = NodePath("RootNode/Tank/Turret:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("RootNode/Tank/Turret/CannonPivot:rotation")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_v4b4r"]
+properties/0/path = NodePath("PlayerInput:input_dir")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("PlayerInput:direction")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("PlayerInput:rot_speed")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="Tank" type="CharacterBody3D"]
+script = ExtResource("1_pifwe")
+bullet_scene = ExtResource("2_1khc0")
+
+[node name="RootNode" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0.5)
+
+[node name="Tank" type="MeshInstance3D" parent="RootNode"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_6f4ew")
+skeleton = NodePath("")
+
+[node name="Turret" type="MeshInstance3D" parent="RootNode/Tank"]
+transform = Transform3D(1, -4.37114e-08, -4.37114e-08, -4.37114e-08, -4.37114e-08, -1, 4.37114e-08, 1, -4.37114e-08, 0.354101, -4.18702e-08, 0.603777)
+mesh = SubResource("CylinderMesh_arbtc")
+
+[node name="CannonPivot" type="Node3D" parent="RootNode/Tank/Turret"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RootNode/Tank/Turret/CannonPivot"]
+transform = Transform3D(0.258819, -0.965926, 1.21704e-15, 0.965926, 0.258819, -1.58608e-15, 1.21704e-15, 1.58608e-15, 1, -0.992421, 0.238642, 1.62958e-15)
+mesh = SubResource("CylinderMesh_tvav3")
+
+[node name="BulletSpawn" type="RayCast3D" parent="RootNode/Tank/Turret/CannonPivot/MeshInstance3D"]
+unique_name_in_owner = true
+transform = Transform3D(0.965916, 0.258817, 0.00483446, -0.00466992, -0.00125129, 0.99999, 0.258819, -0.965926, -5.07371e-08, 0.064103, 1.34429, -1.05259e-16)
+target_position = Vector3(0, 0, 1)
+
+[node name="Camera3D" type="Camera3D" parent="RootNode/Tank/Turret"]
+transform = Transform3D(-8.15666e-08, -0.5, 0.866025, -2.18557e-08, 0.866025, 0.5, -1, 2.18557e-08, -8.15666e-08, 6.31142, 3.65422, -1.03635e-14)
+fov = 85.0
+
+[node name="UpperCannon" type="RayCast3D" parent="RootNode/Tank/Turret"]
+transform = Transform3D(-4.37114e-08, 0.531842, -0.846844, 0, 0.846844, 0.531842, 1, 2.32476e-08, -3.70167e-08, -0.222549, 0.231328, 2.99797e-09)
+target_position = Vector3(0, 0, 1)
+
+[node name="LowerCannon" type="RayCast3D" parent="RootNode/Tank/Turret"]
+transform = Transform3D(-4.37114e-08, 0.0371669, -0.999309, 0, 0.999309, 0.0371669, 1, 1.62462e-09, -4.36812e-08, -0.418287, -0.161139, 1.07472e-15)
+target_position = Vector3(0, 0, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, -4.47035e-08, 0.0711403, 0.512719)
+shape = SubResource("CapsuleShape3D_br5ye")
+
+[node name="ServerSync" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_16a7a")
+
+[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_v4b4r")
+script = ExtResource("3_wyw21")
