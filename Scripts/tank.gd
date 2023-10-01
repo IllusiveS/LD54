@@ -8,6 +8,8 @@ extends CharacterBody3D
 
 @onready var InputSync = $PlayerInput
 
+@export var RespawnPos : Vector3
+
 const SPEED = 15.0
 const JUMP_VELOCITY = 4.5
 
@@ -41,9 +43,9 @@ func fire():
 @onready var target_barrel_rot = cannon_pivot.basis
 
 func _physics_process(delta):
+	if global_position.y < -10.0:
+		global_position = RespawnPos
 	# Add the gravity.
-	if not is_on_floor():
-		velocity.y -= gravity * delta
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -61,7 +63,8 @@ func _physics_process(delta):
 		velocity = -direction * SPEED
 	else:
 		#rot_speed = move_toward(rot_speed, 0, SPEED)
-		velocity = lerp(Vector3(), velocity, SPEED * delta)
+		velocity.x = lerp(0.0, velocity.x, SPEED * delta)
+		velocity.z = lerp(0.0, velocity.z, SPEED * delta)
 	
 	turret.global_basis = lerp(turret.global_basis.get_rotation_quaternion(), target_turret_rot.get_rotation_quaternion(), 5 * delta)
 	
@@ -72,4 +75,7 @@ func _physics_process(delta):
 	
 	rotate_y(rot_speed * delta * SPEED)
 
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+	
 	move_and_slide()
