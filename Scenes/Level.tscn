@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dq61rg2i7lys3"]
+[gd_scene load_steps=13 format=3 uid="uid://dq61rg2i7lys3"]
 
 [ext_resource type="Script" path="res://Scripts/Level.gd" id="1_sxop0"]
-[ext_resource type="Script" path="res://Scripts/RotateThing.gd" id="2_i67ha"]
+[ext_resource type="PackedScene" uid="uid://blsv6unr33m56" path="res://Scenes/Crystal.tscn" id="2_dfmxn"]
+[ext_resource type="PackedScene" uid="uid://dohbci85g52gg" path="res://Scenes/enemies/ball_enemy.tscn" id="3_0u4mv"]
+[ext_resource type="Script" path="res://Scenes/EnemiesSpawner.gd" id="3_yunus"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eo2qy"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -17,18 +19,34 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_bnbwr"]
-top_radius = 30.0
-bottom_radius = 30.0
+top_radius = 45.0
+bottom_radius = 45.0
 height = 0.2
 rings = 16
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_elehc"]
-points = PackedVector3Array(5.70981, 0.376191, 30.4762, -5.70981, -0.57619, -30.4762, -9.52232, -0.57619, -29.5216, -5.70981, 0.376191, -30.4762, 30.4762, -0.57619, -5.70981, -26.6637, -0.57619, 16.1867, -30.4762, 0.376191, -5.70981, 26.6637, 0.376191, -16.1867, 19.0446, -0.57619, 24.7604, 28.567, 0.376191, 12.3802, -24.7604, 0.376191, 19.0446, -9.52232, -0.57619, 29.5216, -26.6637, -0.57619, -16.1867, 16.1867, -0.57619, -26.6637, -19.0446, 0.376191, -24.7604, 9.52232, 0.376191, -29.5216, -30.4762, -0.57619, 5.70981, -16.1867, 0.376191, 26.6637, 28.567, -0.57619, 12.3802, 19.0446, 0.376191, 24.7604, 5.70981, -0.57619, 30.4762, 30.4762, 0.376191, 5.70981, -29.5216, 0.376191, 9.52232, 24.7604, -0.57619, -19.0446, 19.0446, 0.376191, -24.7604, -19.0446, -0.57619, 24.7604, 5.70981, -0.57619, -30.4762, -5.70981, 0.376191, 30.4762, -26.6637, 0.376191, -16.1867, -19.0446, -0.57619, -24.7604, -30.4762, -0.57619, -5.70981, 30.4762, 0.376191, -5.70981)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8v31n"]
+points = PackedVector3Array(8.55577, 0.614286, 45.7143, -8.55577, -0.814286, -45.7143, -14.2745, -0.814286, -44.2824, -8.55577, 0.614286, -45.7143, 45.7143, -0.814286, -8.55577, -39.9955, -0.814286, 24.2801, -45.7143, 0.614286, -8.55577, 39.9955, 0.614286, -24.2801, 28.558, -0.814286, 37.1406, 42.8415, 0.614286, 18.5703, -37.1406, 0.614286, 28.558, -14.2745, -0.814286, 44.2824, -39.9955, -0.814286, -24.2801, 24.2801, -0.814286, -39.9955, -28.558, 0.614286, -37.1406, 14.2745, 0.614286, -44.2824, -45.7143, -0.814286, 8.55577, -24.2801, 0.614286, 39.9955, 42.8415, -0.814286, 18.5703, 28.558, 0.614286, 37.1406, 8.55577, -0.814286, 45.7143, 45.7143, 0.614286, 8.55577, -44.2824, 0.614286, 14.2745, 37.1406, -0.814286, -28.558, 28.558, 0.614286, -37.1406, -28.558, -0.814286, 37.1406, 8.55577, -0.814286, -45.7143, -8.55577, 0.614286, 45.7143, -39.9955, 0.614286, -24.2801, -28.558, -0.814286, -37.1406, -45.7143, -0.814286, -8.55577, 45.7143, 0.614286, -8.55577)
 
-[sub_resource type="BoxMesh" id="BoxMesh_5hiin"]
+[sub_resource type="NavigationMesh" id="NavigationMesh_3aujn"]
+vertices = PackedVector3Array(42.3204, 0.936333, 18.8204, 45.0704, 0.936333, 9.57045, 45.0704, 0.936333, -9.42955, 28.3204, 0.936333, 36.8204, -36.9296, 0.936333, 28.3204, -23.9296, 0.936333, 39.8204, -9.42955, 0.936333, 45.0704, 45.0704, 0.936333, -9.42955, 39.8204, 0.936333, -23.9296, 28.3204, 0.936333, -36.9296, 14.3204, 0.936333, -43.9296, -8.92955, 0.936333, -45.1796, -28.1796, 0.936333, -36.9296, -39.6796, 0.936333, -24.1796, -45.1796, 0.936333, -9.17955, -8.92955, 0.936333, -45.1796, -45.1796, 0.936333, -9.17955, -36.9296, 0.936333, 28.3204, -9.42955, 0.936333, 45.0704, 28.3204, 0.936333, 36.8204, 45.0704, 0.936333, -9.42955, -8.92955, 0.936333, -45.1796, -45.1796, 0.936333, -9.17955, -43.9296, 0.936333, 14.3204, -36.9296, 0.936333, 28.3204, -9.42955, 0.936333, 45.0704, 9.32045, 0.936333, 45.0704, 28.3204, 0.936333, 36.8204)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(6, 5, 4), PackedInt32Array(8, 7, 9), PackedInt32Array(9, 7, 10), PackedInt32Array(10, 7, 11), PackedInt32Array(13, 12, 14), PackedInt32Array(14, 12, 15), PackedInt32Array(17, 16, 18), PackedInt32Array(18, 16, 19), PackedInt32Array(19, 16, 20), PackedInt32Array(20, 16, 21), PackedInt32Array(24, 23, 22), PackedInt32Array(27, 26, 25)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 2
 
-[node name="GameLevel" type="Node3D"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_w7617"]
+top_radius = 46.0
+bottom_radius = 46.0
+height = 20.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pc2ia"]
+top_radius = 43.0
+bottom_radius = 43.0
+height = 20.0
+
+[node name="GameLevel" type="Node3D" node_paths=PackedStringArray("Crystal", "RespawnPoint")]
 script = ExtResource("1_sxop0")
+Crystal = NodePath("Crystal")
+RespawnPoint = NodePath("Respawn")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_h1hmb")
@@ -37,7 +55,7 @@ environment = SubResource("Environment_h1hmb")
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
 transform = Transform3D(0.99924, 0, 0, 0, 0.99924, 0, 0, 0, 0.99924, 0, 0, 0)
@@ -46,13 +64,23 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(0.99924, 0, 0, 0, 0.99924, 0, 0, 0, 0.99924, 0, 0, 0)
-shape = SubResource("ConvexPolygonShape3D_elehc")
+shape = SubResource("ConvexPolygonShape3D_8v31n")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.63746, 0)
-mesh = SubResource("BoxMesh_5hiin")
-skeleton = NodePath("")
-script = ExtResource("2_i67ha")
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="StaticBody3D"]
+navigation_mesh = SubResource("NavigationMesh_3aujn")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="StaticBody3D"]
+operation = 2
+use_collision = true
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="StaticBody3D/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.7296, 0)
+mesh = SubResource("CylinderMesh_w7617")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="StaticBody3D/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.99044, 0)
+operation = 2
+mesh = SubResource("CylinderMesh_pc2ia")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/tank.tscn")
@@ -75,3 +103,76 @@ unique_name_in_owner = true
 
 [node name="Respawn" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.71931, 4.93234, 17.0867)
+
+[node name="Crystal" parent="." instance=ExtResource("2_dfmxn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.61768, 0)
+
+[node name="EnemiesSpawner" type="Node3D" parent="."]
+script = ExtResource("3_yunus")
+EnemyToSpawn = ExtResource("3_0u4mv")
+
+[node name="Node3D" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.711, 15.5512, -18.4027)
+
+[node name="Node3D2" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.11558, 15.5512, -22.9101)
+
+[node name="Node3D3" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.84129, 15.5512, -23.9981)
+
+[node name="Node3D4" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.15299, 15.5512, -24.9306)
+
+[node name="Node3D5" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.99185, 15.5512, -23.0655)
+
+[node name="Node3D6" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2764, 15.5512, -16.7707)
+
+[node name="Node3D7" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.649, 15.5512, -10.1649)
+
+[node name="Node3D8" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.9907, 15.5512, -3.32609)
+
+[node name="Node3D9" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.9907, 15.5512, 2.67391)
+
+[node name="Node3D10" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9907, 15.5512, 10.6739)
+
+[node name="Node3D11" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.9907, 15.5512, 16.6739)
+
+[node name="Node3D12" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.99069, 15.5512, 20.6739)
+
+[node name="Node3D13" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.00931, 15.5512, 22.6739)
+
+[node name="Node3D14" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.55788, 15.5512, 19.0213)
+
+[node name="Node3D15" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.4173, 15.5512, 11.9493)
+
+[node name="Node3D16" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.1373, 15.5512, 3.5562)
+
+[node name="Node3D17" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.0127, 15.5512, -3.51579)
+
+[node name="Node3D18" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4584, 15.5512, -12.1421)
+
+[node name="Node3D19" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.495, 15.5512, -16.5718)
+
+[node name="Node3D20" type="Node3D" parent="EnemiesSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.495, 15.5512, -16.5718)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="EnemiesSpawner" method="_on_timer_timeout"]

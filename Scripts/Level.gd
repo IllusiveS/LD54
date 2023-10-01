@@ -3,6 +3,9 @@ extends Node3D
 
 const SPAWN_RANDOM := 5.0
 
+@export var Crystal : Node3D
+@export var RespawnPoint : Node3D
+
 func _ready():
 	# We only need to spawn players on the server.
 	if not multiplayer.is_server():
@@ -33,9 +36,9 @@ func add_player(id: int):
 	character.player = id
 	# Randomize character position.
 	var pos := Vector2.from_angle(randf() * 2 * PI)
-	character.position = Vector3(pos.x * SPAWN_RANDOM * randf(), 0, pos.y * SPAWN_RANDOM * randf())
 	character.name = str(id)
 	$Players.add_child(character, true)
+	character.global_position = RespawnPoint.global_position
 
 
 func del_player(id: int):

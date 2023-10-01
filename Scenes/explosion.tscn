@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://xfqjtd4d513j"]
+
+[sub_resource type="Curve" id="Curve_ospo2"]
+_data = [Vector2(0, 0), 0.0, 18.2688, 0, 0, Vector2(0.304253, 0.993484), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.51983, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_xu67x"]
+curve = SubResource("Curve_ospo2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lwwk0"]
+spread = 180.0
+initial_velocity_min = 5.0
+initial_velocity_max = 15.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_xu67x")
+
+[sub_resource type="SphereMesh" id="SphereMesh_4d2jw"]
+radius = 0.2
+height = 0.4
+radial_segments = 32
+rings = 16
+
+[node name="GPUParticles3D" type="GPUParticles3D"]
+emitting = false
+amount = 60
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.86
+process_material = SubResource("ParticleProcessMaterial_lwwk0")
+draw_pass_1 = SubResource("SphereMesh_4d2jw")

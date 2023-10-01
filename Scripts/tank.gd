@@ -7,6 +7,7 @@ extends CharacterBody3D
 @onready var cannon_pivot = $RootNode/Tank/Turret/CannonPivot
 
 @onready var InputSync = $PlayerInput
+@onready var Aim = $Aim
 
 @export var RespawnPos : Vector3
 
@@ -22,6 +23,8 @@ func _ready():
 func update_cam():
 	if player == multiplayer.get_unique_id():
 		$RootNode/Tank/Turret/Camera3D.current = true
+	else:
+		Aim.visible = false
 
 # Set by the authority, synchronized on spawn.
 @export var player := 1 :
@@ -43,6 +46,10 @@ func fire():
 @onready var target_barrel_rot = cannon_pivot.basis
 
 func _physics_process(delta):
+	if bullet_spawn_point.is_colliding():
+		Aim.global_position = lerp(Aim.global_position, bullet_spawn_point.get_collision_point(), 9.0 * delta)
+		Aim.look_at(global_position)
+	
 	if global_position.y < -10.0:
 		global_position = RespawnPos
 	# Add the gravity.

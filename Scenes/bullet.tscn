@@ -1,4 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctqmphjko5hh"]
+[gd_scene load_steps=7 format=3 uid="uid://ctqmphjko5hh"]
+
+[ext_resource type="Script" path="res://Scripts/bullet.gd" id="1_wxcnv"]
+[ext_resource type="PackedScene" uid="uid://xfqjtd4d513j" path="res://Scenes/explosion.tscn" id="2_dou3h"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_id0io"]
 
@@ -15,8 +18,15 @@ properties/2/path = NodePath(".:position")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_3bjcw"]
+radius = 6.0
+
 [node name="Bullet" type="RigidBody3D"]
 continuous_cd = true
+max_contacts_reported = 55
+contact_monitor = true
+script = ExtResource("1_wxcnv")
+explosion_particle = ExtResource("2_dou3h")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_id0io")
@@ -26,3 +36,12 @@ shape = SubResource("SphereShape3D_ae3d0")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_82g5a")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_3bjcw")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
