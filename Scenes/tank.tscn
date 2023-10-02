@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cku2axs3np2d8"]
+[gd_scene load_steps=13 format=3 uid="uid://cku2axs3np2d8"]
 
 [ext_resource type="Script" path="res://Scripts/tank.gd" id="1_pifwe"]
 [ext_resource type="PackedScene" uid="uid://ctqmphjko5hh" path="res://Scenes/bullet.tscn" id="2_1khc0"]
+[ext_resource type="PackedScene" uid="uid://csek4w5j6tsls" path="res://Scenes/Weapons/machine_gun_bullet.tscn" id="3_37o17"]
 [ext_resource type="Script" path="res://Scripts/Sync/PlayerInput.gd" id="3_wyw21"]
 [ext_resource type="Texture2D" uid="uid://dbsdt6evtbeuj" path="res://Textures/Aim.png" id="4_4438j"]
 
@@ -16,6 +17,11 @@ height = 0.6
 top_radius = 0.2
 bottom_radius = 0.2
 height = 1.7
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sbw3s"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 1.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_br5ye"]
 radius = 0.35855
@@ -53,6 +59,7 @@ properties/2/replication_mode = 1
 axis_lock_angular_y = true
 script = ExtResource("1_pifwe")
 bullet_scene = ExtResource("2_1khc0")
+machine_gun_bullet_scene = ExtResource("3_37o17")
 RespawnPos = Vector3(1.71931, 4.93234, 17.0867)
 
 [node name="RootNode" type="Node3D" parent="."]
@@ -76,6 +83,17 @@ mesh = SubResource("CylinderMesh_tvav3")
 [node name="BulletSpawn" type="RayCast3D" parent="RootNode/Tank/Turret/CannonPivot/MeshInstance3D"]
 unique_name_in_owner = true
 transform = Transform3D(0.965916, 0.258817, 0.00483446, -0.00466992, -0.00125129, 0.99999, 0.258819, -0.965926, -5.07371e-08, 0.064103, 1.34429, -1.05259e-16)
+target_position = Vector3(0, 0, 50000)
+
+[node name="MachineGun" type="Node3D" parent="RootNode/Tank/Turret/CannonPivot/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.100515, -0.675237, 0.275301)
+
+[node name="MachineGunMesh" type="MeshInstance3D" parent="RootNode/Tank/Turret/CannonPivot/MeshInstance3D/MachineGun"]
+transform = Transform3D(1, 0, 5.29396e-23, 0, 1, 0, -5.29396e-22, 0, 1, -1.19209e-07, 0.451798, 0)
+mesh = SubResource("CylinderMesh_sbw3s")
+
+[node name="MachineGunBulletLoc" type="RayCast3D" parent="RootNode/Tank/Turret/CannonPivot/MeshInstance3D/MachineGun"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, -1.37643e-21, -1, -4.37114e-08, -2.38419e-07, 0.991063, 0)
 target_position = Vector3(0, 0, 50000)
 
 [node name="Camera3D" type="Camera3D" parent="RootNode/Tank/Turret"]

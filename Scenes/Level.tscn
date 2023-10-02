@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://dq61rg2i7lys3"]
+[gd_scene load_steps=14 format=3 uid="uid://dq61rg2i7lys3"]
 
 [ext_resource type="Script" path="res://Scripts/Level.gd" id="1_sxop0"]
 [ext_resource type="PackedScene" uid="uid://blsv6unr33m56" path="res://Scenes/Crystal.tscn" id="2_dfmxn"]
 [ext_resource type="PackedScene" uid="uid://dohbci85g52gg" path="res://Scenes/enemies/ball_enemy.tscn" id="3_0u4mv"]
 [ext_resource type="Script" path="res://Scenes/EnemiesSpawner.gd" id="3_yunus"]
+[ext_resource type="PackedScene" uid="uid://dmdni0biy274j" path="res://Scenes/enemies/big_ball_enemy.tscn" id="5_uhf5h"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eo2qy"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -95,7 +96,7 @@ spawn_limit = 5
 spawn_path = NodePath("../Enemies")
 
 [node name="BulletsSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/bullet.tscn")
+_spawnable_scenes = PackedStringArray("res://Scenes/bullet.tscn", "res://Scenes/Weapons/machine_gun_bullet.tscn")
 spawn_path = NodePath("../Bullets")
 
 [node name="Bullets" type="Node3D" parent="."]
@@ -174,5 +175,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.495, 15.5512, -16.5718)
 [node name="Timer" type="Timer" parent="."]
 wait_time = 4.0
 autostart = true
+
+[node name="BigBallEnemy" parent="." instance=ExtResource("5_uhf5h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0843, 0.613818, -4.46233)
 
 [connection signal="timeout" from="Timer" to="EnemiesSpawner" method="_on_timer_timeout"]

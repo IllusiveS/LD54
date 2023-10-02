@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 @export var bullet_scene : PackedScene
+@export var machine_gun_bullet_scene : PackedScene
 @onready var bullet_spawn_point = %BulletSpawn
 
 @onready var turret = $RootNode/Tank/Turret
@@ -40,7 +41,20 @@ func fire():
 	var new_bullet : RigidBody3D = bullet_scene.instantiate()
 	get_node("/root/Multiplayer/Level/GameLevel/Bullets").add_child(new_bullet, true)
 	new_bullet.global_transform = bullet_spawn_point.global_transform
-	new_bullet.apply_impulse(new_bullet.global_transform.basis.z * 400)
+	new_bullet.apply_impulse(new_bullet.global_transform.basis.z * 200)
+
+var can_fire_alt = true
+
+func alt_fire():
+	if not can_fire_alt:
+		return
+	can_fire_alt = false
+	var new_bullet : RigidBody3D = machine_gun_bullet_scene.instantiate()
+	get_node("/root/Multiplayer/Level/GameLevel/Bullets").add_child(new_bullet, true)
+	new_bullet.global_transform = $RootNode/Tank/Turret/CannonPivot/MeshInstance3D/MachineGun/MachineGunBulletLoc.global_transform
+	new_bullet.apply_impulse(new_bullet.global_transform.basis.z * 300)
+	await get_tree().create_timer(0.15).timeout
+	can_fire_alt = true
 
 @onready var target_turret_rot = turret.global_basis
 @onready var target_barrel_rot = cannon_pivot.basis

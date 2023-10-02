@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://blsv6unr33m56"]
+[gd_scene load_steps=5 format=3 uid="uid://blsv6unr33m56"]
+
+[ext_resource type="Script" path="res://Scripts/Crystal.gd" id="1_a07en"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_sfddx"]
 top_radius = 3.0
@@ -8,10 +10,20 @@ height = 8.0
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_t8gy6"]
 points = PackedVector3Array(-1.1021, -3.94817, 5.87522, -1.10211, -3.94821, -5.87523, -1.83457, -3.94495, -5.68648, 0.906129, 3.89696, -2.89919, 5.87558, -3.94843, 1.10036, -1.9723, 3.85467, 2.32984, -5.87559, -3.94843, -1.10032, 2.49205, 3.82665, 1.77886, 4.72266, -3.90645, -3.63352, -2.49146, 3.82745, -1.77916, -5.09525, -3.91286, 3.09233, 3.09282, -3.91241, 5.09476, 2.86073, 3.8441, -1.07235, 0.71487, 3.66551, 3.03906, -3.03944, 3.66498, 0.714173, 1.83413, -3.944, -5.68626, -4.57317, -3.93354, -3.84095, -1.43675, 3.86125, -2.69262, 5.87536, -3.94828, -1.10143, -3.63275, -3.90704, 4.72351, 4.72262, -3.90642, 3.63355, 1.10182, -3.94717, 5.87489, -5.87558, -3.94843, 1.10036, 3.2328, 3.32194, 0.358386, 2.12665, 3.27851, -2.48118, -1.07343, 3.84545, 2.85981, 3.09352, -3.9133, -5.09472, -3.63279, -3.90708, -4.7235, -2.86052, 3.84533, -1.07157, -0.359016, 3.32255, -3.23248, -5.47621, -3.92523, -2.37243, 1.77964, 3.82682, 2.4914)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tng8s"]
+properties/0/path = NodePath(".:health")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Crystal" type="StaticBody3D"]
+script = ExtResource("1_a07en")
+health = 50.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CylinderMesh_sfddx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_t8gy6")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_tng8s")

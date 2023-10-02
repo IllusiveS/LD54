@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://dmdni0biy274j"]
+
+[ext_resource type="PackedScene" uid="uid://dohbci85g52gg" path="res://Scenes/enemies/ball_enemy.tscn" id="1_7xuij"]
+[ext_resource type="Material" uid="uid://c3g0fkh2gch8d" path="res://Scenes/enemies/mat_enemy.tres" id="2_21sdm"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_0hyso"]
+material = ExtResource("2_21sdm")
+radius = 4.0
+height = 8.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kuspy"]
+points = PackedVector3Array(3.66311, 1.46333, 0.613401, -3.90985, -0.73343, -0.36176, -3.77202, -1.09611, -0.725844, 0.610639, -2.66649, 2.91345, 1.45423, -2.17492, -3.01542, -1.21294, 3.77495, 0.491151, -0.359638, 2.06754, -3.40059, -0.84794, 0.974734, 3.78057, 1.22161, -3.7732, -0.481925, -2.28404, -2.65038, 1.93208, -1.92707, -2.41437, -2.53039, 2.53613, 2.41081, -1.92407, 3.65837, -1.58277, -0.238897, 2.42336, 0.967702, 3.0275, -3.64582, 1.4598, 0.733876, -2.89712, 1.32938, -2.4129, 1.21691, 3.51631, 1.4589, 3.04059, 0.485479, -2.54567, -0.485385, -0.612922, -3.91728, 2.90899, -1.93636, 1.94048, -1.57781, -3.65161, 0.36898, -2.6625, -0.606232, 2.9143, -0.359999, 3.65248, -1.57808, -1.92432, 2.41094, 2.53579, 0.370894, -1.22048, 3.78756, -2.41238, 2.90102, -1.32421, 1.46388, 0.729292, -3.64353, -0.359092, -3.15791, -2.42395, 0.489522, 2.54779, 3.03663, 1.58529, 3.64931, -0.359749, -2.42277, -0.36352, -3.15097, 0.369574, -3.64824, 1.58525)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oevw1"]
+material = ExtResource("2_21sdm")
+radius = 1.0
+height = 4.0
+
+[node name="BigBallEnemy" instance=ExtResource("1_7xuij")]
+health = 150.0
+pushback_mult = 0.1
+
+[node name="MeshInstance3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.91095, 0)
+mesh = SubResource("SphereMesh_0hyso")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.91095, 0)
+shape = SubResource("ConvexPolygonShape3D_kuspy")
+
+[node name="CollisionShape3D" parent="." index="2"]
+disabled = true
+
+[node name="MeshInstance3D2" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 9.53674e-07, 4.56249, 4.23965)
+mesh = SubResource("CapsuleMesh_oevw1")

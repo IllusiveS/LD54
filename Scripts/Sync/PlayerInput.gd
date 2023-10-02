@@ -20,6 +20,10 @@ func _ready():
 func fire():
 	get_parent().fire()
 
+@rpc("any_peer", "call_local", "reliable")
+func alt_fire():
+	get_parent().alt_fire()
+	
 func _input(event):
 	if event is InputEventMouseMotion:
 		get_parent().target_turret_rot = get_parent().turret.global_basis.rotated(Vector3(0, 1, 0), -event.relative.x * get_process_delta_time())
@@ -28,6 +32,8 @@ func _input(event):
 func _process(delta):
 	if Input.is_action_just_pressed("fire"):
 		fire.rpc()
+	if Input.is_action_pressed("alt_fire"):
+		alt_fire.rpc()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.

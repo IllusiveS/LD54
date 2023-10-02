@@ -2,28 +2,20 @@ extends RigidBody3D
 
 @export var explosion_particle : PackedScene
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.s
-func _process(delta):
-	pass
-
 func _on_body_entered(body):
+	var direct_hit = null
+	if body.has_method("receive_damage"):
+		body.receive_damage.rpc(15.0, global_position)
+		direct_hit = body
 	
 	for overlapped_body in enemies:
-		if overlapped_body is Enemy:
-			overlapped_body.receive_damage(3.0)
+		if overlapped_body != direct_hit and overlapped_body.has_method("receive_damage"):
+			overlapped_body.receive_damage.rpc(5.0, global_position)
 		pass
 	pass
 	
 	spawn_explosion.rpc()
 	queue_free.call_deferred()
-	if body is Enemy:
-		body.receive_damage(10.0)
-	
 
 @rpc("authority", "call_local")
 func spawn_explosion():
